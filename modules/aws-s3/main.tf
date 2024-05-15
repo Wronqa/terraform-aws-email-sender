@@ -7,6 +7,22 @@ resource "aws_s3_bucket" "s3_bucket" {
   }
 }
 
+resource "aws_s3_bucket_notification" "s3_lambda_trigger" {
+  bucket = aws_s3_bucket.s3_bucket.id
+  lambda_function {
+    lambda_function_arn = var.s3_reader_lambda.arn
+    events              = ["s3:ObjectCreated:*"]
+  }
+}
+
+resource "aws_lambda_permission" "s3_lambda_trigger_permission" {
+  statement_id  = "AllowS3Invoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.s3_reader_lambda.name
+  principal     = "s3.amazonaws.com"
+  source_arn    = "arn:aws:s3:::${aws_s3_bucket.s3_bucket.id}"
+}
+
 resource "aws_s3_bucket_public_access_block" "bucket_public_access" {
   bucket = aws_s3_bucket.s3_bucket.id
 
