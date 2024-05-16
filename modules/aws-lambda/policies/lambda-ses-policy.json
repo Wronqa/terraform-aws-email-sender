@@ -1,0 +1,25 @@
+{
+    "Version":  "2012-10-17",
+    "Statement": [  
+      {
+        "Effect": "Allow",
+        "Action": ["s3:GetObject"],
+        "Resource": "arn:aws:s3:::*"
+      },
+      {
+        "Effect": "Allow",
+        "Action": ["ses:VerifyDomainDkim",
+            "ses:SendEmail",
+            "ses:SendTemplatedEmail",
+            "ses:VerifyEmailAddress",
+            "ses:SendRawEmail",
+            "ses:GetIdentityDkimAttributes",
+            "ses:ListIdentities",
+            "ses:VerifyDomainIdentity",
+            "ses:SendBounce",
+            "ses:VerifyEmailIdentity",
+            "ses:GetIdentityVerificationAttributes"],
+        "Resource": "*"
+      }
+    ]
+  } 

@@ -1,5 +1,6 @@
 import boto3
 import json
+import os
 
 from csv_processor import get_csv_body
 from email_validator import validate_email
@@ -13,6 +14,6 @@ def lambda_handler(event, context):
     client = boto3.client('stepfunctions')
     
     response = client.start_execution(
-        stateMachineArn='arn:aws:states:eu-north-1:471112532786:stateMachine:email-send-sf',
-        input=  json.dumps({"valid_emails":valid_emails,"invalid_emails":invalid_emails,"sender":"s091365@student.tu.kielce.pl"  })
+        stateMachineArn=os.environ.get('state_machine_arn'),
+        input=  json.dumps({"valid_emails":valid_emails,"invalid_emails":invalid_emails,"sender":os.environ.get('sender_email')  })
     )
